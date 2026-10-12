@@ -131,6 +131,7 @@ section h2 {
 ========================= */
 
 .clock-section {
+    scroll-margin-top: 0;
     width: 100%;
     min-height: 100vh;
     font-family: "Dancing Script", "Segoe Script", "Brush Script MT", cursive;
@@ -1364,11 +1365,28 @@ async function startBackgroundMusic() {
 // Try autoplay when the page opens. Browsers may block sound until a tap.
 window.addEventListener("load", () => { startBackgroundMusic(); });
 
-// Start music and navigate immediately. Do not wait for audio playback:
-// if song.mp3 is missing or the browser delays playback, the page still moves.
-openStoryButton.addEventListener("click", () => {
+// Start music and navigate immediately. Do not wait for audio playback.
+// The hash navigation is a reliable fallback on mobile browsers.
+openStoryButton.addEventListener("click", (event) => {
+    event.preventDefault();
     startBackgroundMusic();
-    goToClock();
+
+    const clockSection = document.getElementById("clock");
+    if (!clockSection) return;
+
+    // Navigate to the clock section (Slide 2), then explicitly scroll to it.
+    if (window.location.hash !== "#clock") {
+        history.replaceState(null, "", "#clock");
+    }
+    clockSection.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    // Some mobile browsers can miss the first smooth-scroll request.
+    window.setTimeout(() => {
+        const top = clockSection.getBoundingClientRect().top + window.scrollY;
+        if (Math.abs(top - window.scrollY) > 8) {
+            window.scrollTo({ top, behavior: "smooth" });
+        }
+    }, 150);
 });
 
 /* =========================
