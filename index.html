@@ -938,12 +938,6 @@ footer {
 
 <body>
 
-<!-- Background music: put your own song file in this folder and name it song.mp3,
-     or change the src below to match your music filename. -->
-<audio id="bgMusic" loop preload="auto" autoplay>
-    <source src="song.mp3" type="audio/mpeg">
-</audio>
-
 <!-- Always start at the opening screen, even if the browser remembers an old scroll position. -->
 <script>
 (function () {
@@ -1346,33 +1340,11 @@ footer {
 <script>
 
 
-/* Try to start the background song as soon as the page loads.
-   Some browsers block audible autoplay until the visitor interacts with the page. */
-const bgMusic = document.getElementById("bgMusic");
-if (bgMusic) {
-    bgMusic.volume = 0.7;
-    const startMusic = () => bgMusic.play().catch(() => {
-        // Autoplay may be blocked by browser policy; the opening button retries on tap.
-    });
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", startMusic, { once: true });
-    } else {
-        startMusic();
-    }
-}
-
-/* Opening button: move to the anniversary clock and retry music playback on tap. */
+/* Opening button: move to the anniversary clock. */
 const openStoryButton = document.getElementById("openStoryButton");
 
 openStoryButton.addEventListener("click", (event) => {
     event.preventDefault();
-
-    // Start background music when the visitor taps "Open Our Story".
-    if (bgMusic) {
-        bgMusic.play().catch((error) => {
-            console.warn("Music playback was blocked by the browser. Try tapping again.", error);
-        });
-    }
 
     const clockSection = document.getElementById("clock");
     if (!clockSection) return;
@@ -1389,6 +1361,7 @@ openStoryButton.addEventListener("click", (event) => {
         }
     }, 150);
 });
+
 
 /* =========================
    START DATE
@@ -1678,5 +1651,30 @@ document.addEventListener("pointerdown", function (event) {
 
 </script>
 
+
+<!-- Direct MP3 background music (place song.mp3 beside this HTML file) -->
+<audio id="bgMusic" preload="auto" loop>
+    <source src="song.mp3" type="audio/mpeg">
+    Your browser does not support HTML audio.
+</audio>
+
+<script>
+(() => {
+    const bgMusic = document.getElementById("bgMusic");
+    const openButton = document.getElementById("openStoryButton");
+
+    // Start music after the visitor clicks “Open Our Story”.
+    // Browsers generally require a user interaction before audio can play.
+    async function playBackgroundMusic() {
+        try {
+            await bgMusic.play();
+        } catch (error) {
+            console.warn("Background music could not start. Check that song.mp3 exists beside this HTML file.", error);
+        }
+    }
+
+    if (openButton) openButton.addEventListener("click", playBackgroundMusic);
+})();
+</script>
 </body>
 </html>
