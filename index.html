@@ -967,36 +967,6 @@ footer {
 
 <body>
 
-<!-- Always start at the opening screen, even if the browser remembers an old scroll position. -->
-<script>
-(function () {
-    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-    // Remove a leftover section hash from a previous visit before the browser can jump to it.
-    if (window.location.hash) {
-        history.replaceState(null, "", window.location.pathname + window.location.search);
-    }
-    function resetToOpeningScreen() {
-        const oldBehavior = document.documentElement.style.scrollBehavior;
-        document.documentElement.style.scrollBehavior = "auto";
-        window.scrollTo(0, 0);
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-        requestAnimationFrame(function () {
-            window.scrollTo(0, 0);
-            document.documentElement.style.scrollBehavior = oldBehavior;
-        });
-    }
-    resetToOpeningScreen();
-    window.addEventListener("DOMContentLoaded", resetToOpeningScreen, { once: true });
-    window.addEventListener("load", function () {
-        resetToOpeningScreen();
-        // Image/font layout changes on mobile can trigger a delayed browser restore.
-        setTimeout(resetToOpeningScreen, 150);
-        setTimeout(resetToOpeningScreen, 600);
-    }, { once: true });
-})();
-</script>
-
 <!-- Background song: place your audio file named "song.mp3" beside this HTML file. -->
 <audio id="backgroundMusic" loop preload="none">
     <source src="song.mp3" type="audio/mpeg">
@@ -1570,18 +1540,10 @@ function showGallerySlide(index) {
         dot.classList.toggle("active", i === galleryIndex);
     });
 
-    // Scroll ONLY inside the horizontal gallery. scrollIntoView() can also
-    // move the whole page vertically, which made the site open at the gallery.
-    const card = galleryCards[galleryIndex];
-    const galleryRect = gallery.getBoundingClientRect();
-    const cardRect = card.getBoundingClientRect();
-    const targetLeft = gallery.scrollLeft
-        + cardRect.left - galleryRect.left
-        - (gallery.clientWidth - card.clientWidth) / 2;
-
-    gallery.scrollTo({
-        left: Math.max(0, targetLeft),
-        behavior: "smooth"
+    galleryCards[galleryIndex].scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center"
     });
 }
 
@@ -1604,14 +1566,7 @@ galleryDots.forEach((dot, index) => {
 });
 
 if (galleryCards.length) {
-    // Set the first photo active without causing the document to jump vertically.
-    galleryIndex = 0;
-    galleryCards.forEach((card, i) => card.classList.toggle("active", i === 0));
-    galleryDots.forEach((dot, i) => dot.classList.toggle("active", i === 0));
-    requestAnimationFrame(() => {
-        if (gallery) gallery.scrollLeft = 0;
-        window.scrollTo(0, 0);
-    });
+    showGallerySlide(0);
 }
 
 
