@@ -938,6 +938,52 @@ footer {
 
 <body>
 
+<!-- Compact YouTube music player in the top-right corner -->
+<div id="ytMusicFrame">
+    <iframe
+        id="ytMusicPlayer"
+        title="Background music"
+        src="https://www.youtube.com/embed/yQ6d627OZig?enablejsapi=1&loop=1&playlist=yQ6d627OZig"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+    </iframe>
+</div>
+<button id="musicBtn" type="button" aria-label="Play music">🎵 Play</button>
+<style>
+#ytMusicFrame {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    width: 120px;
+    height: 68px;
+    z-index: 9998;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #000;
+    box-shadow: 0 3px 12px rgba(0,0,0,.22);
+}
+#ytMusicPlayer { width: 100%; height: 100%; border: 0; }
+#musicBtn {
+    position: fixed;
+    top: 88px;
+    right: 12px;
+    z-index: 9999;
+    border: 0;
+    border-radius: 999px;
+    padding: 7px 11px;
+    background: #c9365e;
+    color: white;
+    font: 600 12px Arial, sans-serif;
+    box-shadow: 0 3px 10px rgba(0,0,0,.16);
+    cursor: pointer;
+}
+@media (max-width: 480px) {
+    #ytMusicFrame { top: 8px; right: 8px; width: 96px; height: 54px; }
+    #musicBtn { top: 68px; right: 8px; padding: 6px 9px; font-size: 11px; }
+}
+</style>
+
 <!-- Always start at the opening screen, even if the browser remembers an old scroll position. -->
 <script>
 (function () {
@@ -1340,11 +1386,44 @@ footer {
 <script>
 
 
-/* Opening button: move to the anniversary clock. */
+/* YouTube background music controls */
+const ytMusicPlayer = document.getElementById("ytMusicPlayer");
+const musicBtn = document.getElementById("musicBtn");
+let musicIsPlaying = false;
+
+function sendYouTubeCommand(command) {
+    ytMusicPlayer.contentWindow.postMessage(JSON.stringify({
+        event: "command",
+        func: command,
+        args: []
+    }), "https://www.youtube.com");
+}
+
+function playMusic() {
+    sendYouTubeCommand("playVideo");
+    musicIsPlaying = true;
+    musicBtn.textContent = "⏸ Pause";
+    musicBtn.setAttribute("aria-label", "Pause music");
+}
+
+function pauseMusic() {
+    sendYouTubeCommand("pauseVideo");
+    musicIsPlaying = false;
+    musicBtn.textContent = "🎵 Play";
+    musicBtn.setAttribute("aria-label", "Play music");
+}
+
+musicBtn.addEventListener("click", () => {
+    if (musicIsPlaying) pauseMusic();
+    else playMusic();
+});
+
+/* Opening button: move to the anniversary clock and start music. */
 const openStoryButton = document.getElementById("openStoryButton");
 
 openStoryButton.addEventListener("click", (event) => {
     event.preventDefault();
+    playMusic();
 
     const clockSection = document.getElementById("clock");
     if (!clockSection) return;
@@ -1361,7 +1440,6 @@ openStoryButton.addEventListener("click", (event) => {
         }
     }, 150);
 });
-
 
 /* =========================
    START DATE
@@ -1651,30 +1729,5 @@ document.addEventListener("pointerdown", function (event) {
 
 </script>
 
-
-<!-- Direct MP3 background music (place song.mp3 beside this HTML file) -->
-<audio id="bgMusic" preload="auto" loop>
-    <source src="song.mp3" type="audio/mpeg">
-    Your browser does not support HTML audio.
-</audio>
-
-<script>
-(() => {
-    const bgMusic = document.getElementById("bgMusic");
-    const openButton = document.getElementById("openStoryButton");
-
-    // Start music after the visitor clicks “Open Our Story”.
-    // Browsers generally require a user interaction before audio can play.
-    async function playBackgroundMusic() {
-        try {
-            await bgMusic.play();
-        } catch (error) {
-            console.warn("Background music could not start. Check that song.mp3 exists beside this HTML file.", error);
-        }
-    }
-
-    if (openButton) openButton.addEventListener("click", playBackgroundMusic);
-})();
-</script>
 </body>
 </html>
