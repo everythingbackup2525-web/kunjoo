@@ -778,44 +778,64 @@ footer {
 }
 
 /* =========================
-   FLOATING HEARTS
+   FLOATING BUTTERFLIES
+   Individual drifting paths + more natural wing motion
 ========================= */
-
-.heart {
+.butterfly {
     position: fixed;
-
-    bottom: -30px;
-
-    font-size: 20px;
-
+    left: var(--start-left, 10vw);
+    top: var(--start-top, 70vh);
+    bottom: auto;
+    font-size: var(--size, 25px);
+    line-height: 1;
+    opacity: .58;
     pointer-events: none;
-
-    animation: floatHeart 7s linear infinite;
-
     z-index: 20;
+    filter: hue-rotate(285deg) saturate(.62) brightness(1.12)
+            drop-shadow(0 0 5px rgba(255, 182, 193, .28));
+    animation: butterflyFlight var(--duration, 16s) ease-in-out var(--delay, 0s) infinite alternate;
+    will-change: transform, opacity;
 }
 
-@keyframes floatHeart {
-
-    0% {
-        transform: translateY(0) scale(.8);
-        opacity: 0;
-    }
-
-    10% {
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateY(-110vh) scale(1.2);
-        opacity: 0;
-    }
+.butterfly-glyph {
+    display: inline-block;
+    transform-origin: 50% 50%;
+    animation: butterflyWingFlap var(--flap-speed, .42s) ease-in-out infinite;
+    will-change: transform, filter;
 }
 
-/* First anniversary slide with a background image */
+/* One special blue butterfly gently follows each touch; the others keep drifting. */
+.butterfly.blue-butterfly {
+    font-size: 36px; /* Slightly larger than the pink butterflies */
+    opacity: .82;
+    filter: none;
+    filter: drop-shadow(0 0 6px rgba(92, 174, 255, .48));
+    z-index: 21;
+}
+.butterfly.blue-butterfly .butterfly-glyph {
+    filter: hue-rotate(0deg) saturate(1.15) brightness(1.08);
+}
+
+/* Perspective-like compression and tiny body roll create a more lifelike flap. */
+@keyframes butterflyWingFlap {
+    0%, 100% { transform: perspective(70px) rotateY(0deg) rotateZ(-3deg) scaleX(1); }
+    22% { transform: perspective(70px) rotateY(28deg) rotateZ(1deg) scaleX(.88); }
+    48% { transform: perspective(70px) rotateY(72deg) rotateZ(4deg) scaleX(.54); }
+    72% { transform: perspective(70px) rotateY(24deg) rotateZ(-1deg) scaleX(.9); }
+}
+
+@keyframes butterflyFlight {
+    0%   { transform: translate3d(0, 0, 0) rotate(var(--rot0, -10deg)) scale(.82); opacity: .12; }
+    12%  { opacity: .58; }
+    27%  { transform: translate3d(var(--x1, 45px), var(--y1, -35px), 0) rotate(var(--rot1, 15deg)) scale(1); }
+    49%  { transform: translate3d(var(--x2, -30px), var(--y2, 55px), 0) rotate(var(--rot2, -20deg)) scale(.92); }
+    73%  { transform: translate3d(var(--x3, 70px), var(--y3, -50px), 0) rotate(var(--rot3, 22deg)) scale(1.08); }
+    100% { transform: translate3d(var(--x4, -45px), var(--y4, 30px), 0) rotate(var(--rot4, -12deg)) scale(.86); opacity: .42; }
+}
+
+/* New anniversary opening slide */
 .anniversary-intro {
     min-height: 100vh;
-    min-height: 100svh;
     width: 100%;
     display: flex;
     align-items: center;
@@ -825,17 +845,10 @@ footer {
     color: #fff;
     position: relative;
     overflow: hidden;
-
-    /* Put first-slide.jpg in the same folder as this HTML file */
     background:
-        linear-gradient(
-            rgba(40, 5, 20, 0.45),
-            rgba(40, 5, 20, 0.60)
-        ),
-        url("WhatsApp Image 2026-10-13 at 1.06.55 PM.jpeg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+      radial-gradient(circle at 20% 20%, rgba(255,190,210,.32), transparent 35%),
+      radial-gradient(circle at 80% 80%, rgba(255,220,230,.22), transparent 32%),
+      linear-gradient(145deg, #4b1028, #a52c4d 55%, #e47796);
 }
 .anniversary-intro::before,
 .anniversary-intro::after {
@@ -902,15 +915,16 @@ footer {
 }
 
 .touch-glitter {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: #fff;
     box-shadow:
-        0 0 6px #fff,
-        0 0 12px #ffd6e3,
-        0 0 18px #ff7fa3;
-    animation: glitterPop .65s ease-out forwards;
+        0 0 5px 2px #fff,
+        0 0 12px 4px rgba(255, 224, 238, .98),
+        0 0 22px 6px rgba(255, 105, 180, .9),
+        0 0 32px 8px rgba(255, 182, 193, .65);
+    animation: glitterPop .8s ease-out forwards;
 }
 
 @keyframes glitterPop {
@@ -929,9 +943,12 @@ footer {
 }
 
 .click-heart {
-    font-size: 18px;
-    animation: heartPop .85s cubic-bezier(.2,.8,.2,1) forwards;
-    filter: drop-shadow(0 2px 5px rgba(180,30,80,.25));
+    font-size: 21px;
+    color: rgba(255, 170, 195, .76);
+    opacity: .8;
+    text-shadow: 0 0 8px rgba(255, 192, 203, .45);
+    animation: heartPop .95s cubic-bezier(.2,.8,.2,1) forwards;
+    filter: drop-shadow(0 2px 7px rgba(255, 105, 180, .25));
 }
 
 @keyframes heartPop {
@@ -1413,32 +1430,63 @@ footer {
 
 
 <!-- =========================
-     FLOATING HEARTS
+     FLOATING BUTTERFLIES
 ========================= -->
 
-<div class="heart"
-     style="left:10%; animation-delay:0s;">
-    ❤️
-</div>
-
-<div class="heart"
-     style="left:35%; animation-delay:2s;">
-    💕
-</div>
-
-<div class="heart"
-     style="left:60%; animation-delay:4s;">
-    💗
-</div>
-
-<div class="heart"
-     style="left:85%; animation-delay:1s;">
-    💖
-</div>
+<div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
+<div class="butterfly blue-butterfly"><span class="butterfly-glyph">🦋</span></div>
+<div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
+<div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
+<div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
+<div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
+<div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
+<div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
+<div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
+<div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
 
 
 <script>
 
+
+/* Give every butterfly its own starting point, flight path, speed and wing rhythm. */
+function randomBetween(min, max) { return min + Math.random() * (max - min); }
+function setButterflyFlight(butterfly, freshPosition = true) {
+    const glyph = butterfly.querySelector(".butterfly-glyph");
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    if (freshPosition || !butterfly.dataset.initialized) {
+        butterfly.style.left = `${randomBetween(2, Math.max(3, w - 30))}px`;
+        butterfly.style.top = `${randomBetween(4, Math.max(5, h - 35))}px`;
+    }
+    const vars = {
+        "--x1": `${randomBetween(-w * .32, w * .32)}px`,
+        "--y1": `${randomBetween(-h * .28, h * .28)}px`,
+        "--x2": `${randomBetween(-w * .36, w * .36)}px`,
+        "--y2": `${randomBetween(-h * .32, h * .32)}px`,
+        "--x3": `${randomBetween(-w * .3, w * .3)}px`,
+        "--y3": `${randomBetween(-h * .3, h * .3)}px`,
+        "--x4": `${randomBetween(-w * .38, w * .38)}px`,
+        "--y4": `${randomBetween(-h * .34, h * .34)}px`,
+        "--rot0": `${randomBetween(-35, 35)}deg`,
+        "--rot1": `${randomBetween(-55, 55)}deg`,
+        "--rot2": `${randomBetween(-45, 45)}deg`,
+        "--rot3": `${randomBetween(-55, 55)}deg`,
+        "--rot4": `${randomBetween(-35, 35)}deg`,
+        "--duration": `${randomBetween(11, 23)}s`,
+        "--delay": `${randomBetween(-18, 0)}s`,
+        "--flap-speed": `${randomBetween(.3, .52)}s`,
+        "--size": `${randomBetween(19, 30)}px`
+    };
+    Object.entries(vars).forEach(([key, value]) => butterfly.style.setProperty(key, value));
+    butterfly.style.animation = "none";
+    if (glyph) glyph.style.animation = "none";
+    void butterfly.offsetWidth;
+    butterfly.style.animation = "butterflyFlight var(--duration) ease-in-out var(--delay) infinite alternate";
+    if (glyph) glyph.style.animation = "butterflyWingFlap var(--flap-speed) ease-in-out infinite";
+    butterfly.dataset.initialized = "true";
+}
+
+document.querySelectorAll(".butterfly").forEach(b => setButterflyFlight(b));
 
 /* YouTube background music controls */
 const ytMusicPlayer = document.getElementById("ytMusicPlayer");
@@ -1730,7 +1778,7 @@ function vibrateOnClick() {
 }
 
 function createGlitter(x, y) {
-    const glitterCount = 16;
+    const glitterCount = 28;
 
     // Glitter bursts from the exact point touched anywhere on the page.
     for (let i = 0; i < glitterCount; i++) {
@@ -1738,7 +1786,10 @@ function createGlitter(x, y) {
         particle.className = "touch-glitter";
 
         const angle = (Math.PI * 2 * i) / glitterCount + (Math.random() * .35);
-        const distance = 22 + Math.random() * 38;
+        const distance = 28 + Math.random() * 52;
+        particle.style.width = `${5 + Math.random() * 5}px`;
+        particle.style.height = particle.style.width;
+        particle.style.animationDelay = `${Math.random() * 100}ms`;
 
         particle.style.left = x + "px";
         particle.style.top = y + "px";
@@ -1758,13 +1809,40 @@ function createGlitter(x, y) {
 document.addEventListener("pointerdown", function (event) {
     createGlitter(event.clientX, event.clientY);
 
+    // Only the blue butterfly gently glides to the touch point. Pink butterflies
+    // continue their own independent flight paths and never gather around the touch.
+    const blueButterfly = document.querySelector(".blue-butterfly");
+    if (blueButterfly && blueButterfly.dataset.gathering !== "true") {
+        blueButterfly.dataset.gathering = "true";
+        const rect = blueButterfly.getBoundingClientRect();
+        const startLeft = rect.left;
+        const startTop = rect.top;
+        blueButterfly.style.animation = "none";
+        blueButterfly.style.left = `${startLeft}px`;
+        blueButterfly.style.top = `${startTop}px`;
+        blueButterfly.style.opacity = ".88";
+        // A longer, eased journey makes it feel like it is calmly flying, not rushing.
+        blueButterfly.style.transition = "left 2.8s cubic-bezier(.22,.61,.36,1), top 2.8s cubic-bezier(.22,.61,.36,1), opacity .5s ease";
+        requestAnimationFrame(() => {
+            blueButterfly.style.left = `${event.clientX - rect.width / 2}px`;
+            blueButterfly.style.top = `${event.clientY - rect.height / 2}px`;
+        });
+        setTimeout(() => {
+            blueButterfly.style.transition = "none";
+            blueButterfly.style.opacity = ".82";
+            setButterflyFlight(blueButterfly, false);
+            blueButterfly.dataset.gathering = "false";
+        }, 3000);
+    }
+
     const button = event.target.closest("button");
     if (!button) return;
 
     const rect = button.getBoundingClientRect();
     const x = rect.left + rect.width / 2;
     const y = rect.top + rect.height / 2;
-    const hearts = ["❤️", "💕", "💗", "💖", "💘"];
+    // Use a single-colour heart glyph so the pop effect stays soft pink.
+    const hearts = ["♥"];
 
     for (let i = 0; i < 3; i++) {
         const heart = document.createElement("span");
