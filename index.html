@@ -812,6 +812,41 @@ footer {
     }
 }
 
+/* New anniversary opening slide */
+.anniversary-intro {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 28px 20px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255,190,210,.32), transparent 35%),
+      radial-gradient(circle at 80% 80%, rgba(255,220,230,.22), transparent 32%),
+      linear-gradient(145deg, #4b1028, #a52c4d 55%, #e47796);
+}
+.anniversary-intro::before,
+.anniversary-intro::after {
+    content: "♥";
+    position: absolute;
+    color: rgba(255,255,255,.12);
+    font-size: clamp(120px, 28vw, 300px);
+    pointer-events: none;
+}
+.anniversary-intro::before { top: -55px; left: -30px; transform: rotate(-18deg); }
+.anniversary-intro::after { bottom: -100px; right: -25px; transform: rotate(18deg); }
+.intro-content { width: 100%; max-width: 520px; position: relative; z-index: 1; }
+.intro-kicker { font: 600 12px Arial, sans-serif; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 22px; }
+.anniversary-intro h1 { font-family: "Great Vibes", "Brush Script MT", cursive; font-size: clamp(43px, 10vw, 72px); font-weight: 400; line-height: 1.15; margin-bottom: 18px; text-shadow: 0 4px 20px rgba(40,0,15,.2); }
+.intro-message { font-size: clamp(16px, 4vw, 20px); line-height: 1.8; margin: 0 auto 30px; max-width: 420px; }
+.intro-next-button { border: 0; border-radius: 999px; padding: 14px 27px; background: #fff; color: #a52c4d; font-weight: 700; font-size: 15px; cursor: pointer; box-shadow: 0 8px 24px rgba(35,0,12,.24); }
+.intro-heart { font-size: 30px; margin-bottom: 18px; animation: introBeat 1.5s ease-in-out infinite; }
+@keyframes introBeat { 50% { transform: scale(1.12); } }
+
 /* =========================
    SMALL PHONES
 ========================= */
@@ -938,18 +973,6 @@ footer {
 
 <body>
 
-<!-- Compact YouTube music player in the top-right corner -->
-<div id="ytMusicFrame">
-    <iframe
-        id="ytMusicPlayer"
-        title="Background music"
-        src="https://www.youtube.com/embed/yQ6d627OZig?enablejsapi=1&loop=1&playlist=yQ6d627OZig"
-        allow="autoplay; encrypted-media; picture-in-picture"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen>
-    </iframe>
-</div>
-<button id="musicBtn" type="button" aria-label="Play music">🎵 Play</button>
 <style>
 #ytMusicFrame {
     position: fixed;
@@ -1015,10 +1038,33 @@ footer {
 </script>
 
 <!-- =========================
-     FIRST SCREEN
+     NEW ANNIVERSARY OPENING SLIDE
 ========================= -->
+<section class="anniversary-intro" id="anniversaryIntro">
+    <div class="intro-content">
+        <div class="intro-heart">💗</div>
+        <div class="intro-kicker">21 October 2021 — Forever</div>
+        <h1>Happy 5th Anniversary<br>Riyaaa ❤️‍🩹</h1>
+        <p class="intro-message">Five years of memories, little moments, and a love that means so much. This little surprise is just for you. 🫂❤️</p>
+        <button class="intro-next-button" id="startAnniversaryButton" type="button">Open Your Surprise 💌</button>
+    </div>
+</section>
 
-<header class="hero">
+<!-- YouTube music player and its play/pause control now belong to the new opening slide.
+     The fixed controls stay available as you move through the website. -->
+<div id="ytMusicFrame">
+    <iframe id="ytMusicPlayer" title="Background music"
+        src="https://www.youtube.com/embed/yQ6d627OZig?enablejsapi=1&loop=1&playlist=yQ6d627OZig"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+    </iframe>
+</div>
+<button id="musicBtn" type="button" aria-label="Play music">🎵 Play</button>
+
+<!-- =========================
+     SECOND SLIDE: ORIGINAL OPENING
+========================= -->
+<header class="hero" id="originalOpening">
 
     <div class="hero-content">
 
@@ -1418,12 +1464,19 @@ musicBtn.addEventListener("click", () => {
     else playMusic();
 });
 
-/* Opening button: move to the anniversary clock and start music. */
+/* First-slide button starts the YouTube song and opens the next slide. */
+const startAnniversaryButton = document.getElementById("startAnniversaryButton");
+startAnniversaryButton.addEventListener("click", () => {
+    playMusic();
+    const nextSlide = document.getElementById("originalOpening");
+    if (nextSlide) nextSlide.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+/* Opening button on slide 2: move to the anniversary clock. Music starts on slide 1. */
 const openStoryButton = document.getElementById("openStoryButton");
 
 openStoryButton.addEventListener("click", (event) => {
     event.preventDefault();
-    playMusic();
 
     const clockSection = document.getElementById("clock");
     if (!clockSection) return;
