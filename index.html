@@ -812,9 +812,10 @@ footer {
     }
 }
 
-/* New anniversary opening slide */
+/* First anniversary slide with a background image */
 .anniversary-intro {
     min-height: 100vh;
+    min-height: 100svh;
     width: 100%;
     display: flex;
     align-items: center;
@@ -824,10 +825,17 @@ footer {
     color: #fff;
     position: relative;
     overflow: hidden;
+
+    /* Put first-slide.jpg in the same folder as this HTML file */
     background:
-      radial-gradient(circle at 20% 20%, rgba(255,190,210,.32), transparent 35%),
-      radial-gradient(circle at 80% 80%, rgba(255,220,230,.22), transparent 32%),
-      linear-gradient(145deg, #4b1028, #a52c4d 55%, #e47796);
+        linear-gradient(
+            rgba(40, 5, 20, 0.45),
+            rgba(40, 5, 20, 0.60)
+        ),
+        url("WhatsApp Image 2026-10-13 at 1.06.55 PM.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 .anniversary-intro::before,
 .anniversary-intro::after {
