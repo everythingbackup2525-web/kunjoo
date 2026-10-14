@@ -54,8 +54,8 @@ body {
 
     background:
         linear-gradient(
-            rgba(80, 15, 40, 0.45),
-            rgba(80, 15, 40, 0.60)
+            rgba(45, 8, 25, 0.18),
+            rgba(45, 8, 25, 0.28)
         ),
         url("WhatsApp Image 2026-10-08 at 10.27.14 AM.jpeg");
 
@@ -788,7 +788,7 @@ footer {
     bottom: auto;
     font-size: var(--size, 25px);
     line-height: 1;
-    opacity: .88;
+    opacity: .48;
     pointer-events: none;
     z-index: 20;
     /* Tint the emoji itself pink so all five non-blue butterflies read as pink. */
@@ -841,7 +841,7 @@ footer {
     100% { transform: translate3d(var(--x4, -45px), var(--y4, 30px), 0) rotate(var(--rot4, -12deg)) scale(.96); opacity: .96; }
 }
 
-/* Perspective-like compression aannind tiny body roll create a more lifelike flap. */
+/* Perspective-like compression and tiny body roll create a more lifelike flap. */
 @keyframes butterflyWingFlap {
     0%, 100% { transform: perspective(70px) rotateY(0deg) rotateZ(-3deg) scaleX(1); }
     22% { transform: perspective(70px) rotateY(28deg) rotateZ(1deg) scaleX(.88); }
@@ -850,12 +850,12 @@ footer {
 }
 
 @keyframes butterflyFlight {
-    0%   { transform: translate3d(0, 0, 0) rotate(var(--rot0, -10deg)) scale(.9); opacity: .72; }
-    12%  { opacity: .9; }
+    0%   { transform: translate3d(0, 0, 0) rotate(var(--rot0, -10deg)) scale(.9); opacity: .35; }
+    12%  { opacity: .50; }
     27%  { transform: translate3d(var(--x1, 45px), var(--y1, -35px), 0) rotate(var(--rot1, 15deg)) scale(1); }
     49%  { transform: translate3d(var(--x2, -30px), var(--y2, 55px), 0) rotate(var(--rot2, -20deg)) scale(.92); }
     73%  { transform: translate3d(var(--x3, 70px), var(--y3, -50px), 0) rotate(var(--rot3, 22deg)) scale(1.08); }
-    100% { transform: translate3d(var(--x4, -45px), var(--y4, 30px), 0) rotate(var(--rot4, -12deg)) scale(.92); opacity: .82; }
+    100% { transform: translate3d(var(--x4, -45px), var(--y4, 30px), 0) rotate(var(--rot4, -12deg)) scale(.92); opacity: .40; }
 }
 
 /* New anniversary opening slide */
@@ -871,7 +871,7 @@ footer {
     position: relative;
     overflow: hidden;
     background:
-      linear-gradient(rgba(40, 0, 20, 0.45), rgba(40, 0, 20, 0.60)),
+      linear-gradient(rgba(40, 0, 20, 0.18), rgba(40, 0, 20, 0.28)),
       url("WhatsApp Image 2026-10-13 at 1.06.55 PM.jpeg");
     background-size: cover;
     background-position: center;
@@ -888,9 +888,9 @@ footer {
 .anniversary-intro::before { top: -55px; left: -30px; transform: rotate(-18deg); }
 .anniversary-intro::after { bottom: -100px; right: -25px; transform: rotate(18deg); }
 .intro-content { width: 100%; max-width: 520px; position: relative; z-index: 1; }
-.intro-kicker { font: 600 12px Arial, sans-serif; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 22px; }
-.anniversary-intro h1 { font-family: "Great Vibes", "Brush Script MT", cursive; font-size: clamp(43px, 10vw, 72px); font-weight: 400; line-height: 1.15; margin-bottom: 18px; text-shadow: 0 4px 20px rgba(40,0,15,.2); }
-.intro-message { font-size: clamp(16px, 4vw, 20px); line-height: 1.8; margin: 0 auto 30px; max-width: 420px; }
+.intro-kicker { font: 600 12px Arial, sans-serif; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 22px; text-shadow: 0 2px 8px rgba(25,0,12,.95), 0 0 14px rgba(25,0,12,.65); }
+.anniversary-intro h1 { font-family: "Great Vibes", "Brush Script MT", cursive; font-size: clamp(43px, 10vw, 72px); font-weight: 400; line-height: 1.15; margin-bottom: 18px; text-shadow: 0 3px 8px rgba(25,0,12,.95), 0 0 18px rgba(25,0,12,.8); }
+.intro-message { font-size: clamp(16px, 4vw, 20px); line-height: 1.8; margin: 0 auto 30px; max-width: 420px; text-shadow: 0 2px 7px rgba(25,0,12,.95), 0 0 14px rgba(25,0,12,.75); }
 .intro-next-button { border: 0; border-radius: 999px; padding: 14px 27px; background: #fff; color: #a52c4d; font-weight: 700; font-size: 15px; cursor: pointer; box-shadow: 0 8px 24px rgba(35,0,12,.24); }
 .intro-heart { font-size: 30px; margin-bottom: 18px; animation: introBeat 1.5s ease-in-out infinite; }
 @keyframes introBeat { 50% { transform: scale(1.12); } }
@@ -1018,6 +1018,57 @@ footer {
     display: inline-block; border: 0; border-radius: 999px; padding: 13px 25px;
     background: #fff; color: #a52c4d; font-size: 14px; font-weight: bold;
     box-shadow: 0 6px 20px rgba(0,0,0,.2); cursor: pointer;
+}
+
+
+
+/* Gentle transparency balance: let the photos show through while keeping every word readable. */
+.hero-content,
+.intro-content,
+section h2,
+section h3,
+section p,
+.subtitle,
+.clock-message,
+.gallery-kicker,
+.gallery-subtitle,
+.story-card,
+.intro-kicker,
+.anniversary-intro h1,
+.intro-message {
+    opacity: .92;
+}
+
+/* Soften large section panels instead of covering the imagery with solid blocks. */
+.clock-section {
+    background: rgba(255, 245, 247, .76) !important;
+}
+.story {
+    background: rgba(255, 255, 255, .70) !important;
+}
+.story-card {
+    background: rgba(255, 245, 247, .72) !important;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+.gallery-section {
+    background: radial-gradient(circle at 50% 15%, rgba(255,255,255,.62), transparent 32%),
+                rgba(255,243,246,.66) !important;
+}
+.gallery-kicker {
+    background: rgba(255, 224, 232, .70) !important;
+}
+.gallery-card h3 {
+    background: rgba(255,245,247,.72) !important;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+/* Light text shadows maintain contrast without needing an opaque text box. */
+.hero h1, .hero p, .date,
+.anniversary-intro h1, .intro-kicker, .intro-message,
+section h2, section h3, section p {
+    text-shadow: 0 1px 4px rgba(40, 0, 20, .16);
 }
 
 </style>
