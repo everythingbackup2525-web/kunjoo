@@ -788,11 +788,12 @@ footer {
     bottom: auto;
     font-size: var(--size, 25px);
     line-height: 1;
-    opacity: .58;
+    opacity: .88;
     pointer-events: none;
     z-index: 20;
-    filter: hue-rotate(285deg) saturate(.62) brightness(1.12)
-            drop-shadow(0 0 5px rgba(255, 182, 193, .28));
+    /* Tint the emoji itself pink so all five non-blue butterflies read as pink. */
+    filter: brightness(0) saturate(100%) invert(79%) sepia(22%) saturate(1280%) hue-rotate(289deg) brightness(104%) contrast(101%)
+            drop-shadow(0 0 5px rgba(255, 150, 190, .48));
     animation: butterflyFlight var(--duration, 16s) ease-in-out var(--delay, 0s) infinite alternate;
     will-change: transform, opacity;
 }
@@ -804,19 +805,43 @@ footer {
     will-change: transform, filter;
 }
 
-/* One special blue butterfly gently follows each touch; the others keep drifting. */
+/* One unmistakably blue butterfly: always visible, a little larger, and touch-responsive. */
 .butterfly.blue-butterfly {
-    font-size: 36px; /* Slightly larger than the pink butterflies */
-    opacity: .82;
-    filter: none;
-    filter: drop-shadow(0 0 6px rgba(92, 174, 255, .48));
+    font-size: 42px;
+    opacity: .96;
+    filter: drop-shadow(0 0 7px rgba(70, 160, 255, .62));
     z-index: 21;
+    animation-name: blueButterflyFlight;
 }
 .butterfly.blue-butterfly .butterfly-glyph {
-    filter: hue-rotate(0deg) saturate(1.15) brightness(1.08);
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    animation: none !important;
+    filter: drop-shadow(0 0 3px rgba(100, 190, 255, .5));
+}
+.blue-wing {
+    transform-box: fill-box;
+    transform-origin: 50% 85%;
+    animation: blueWingFlap .42s ease-in-out infinite;
+}
+.blue-wing.left-wing { transform-origin: 100% 75%; }
+.blue-wing.right-wing { transform-origin: 0% 75%; }
+@keyframes blueWingFlap {
+    0%, 100% { transform: scaleY(1) rotate(0deg); }
+    22% { transform: scaleY(.82) rotate(-8deg); }
+    48% { transform: scaleY(.43) rotate(-19deg); }
+    72% { transform: scaleY(.86) rotate(-6deg); }
+}
+@keyframes blueButterflyFlight {
+    0%   { transform: translate3d(0, 0, 0) rotate(var(--rot0, -10deg)) scale(.96); opacity: .96; }
+    25%  { transform: translate3d(var(--x1, 45px), var(--y1, -35px), 0) rotate(var(--rot1, 15deg)) scale(1.04); opacity: 1; }
+    50%  { transform: translate3d(var(--x2, -30px), var(--y2, 55px), 0) rotate(var(--rot2, -20deg)) scale(.98); opacity: .94; }
+    75%  { transform: translate3d(var(--x3, 70px), var(--y3, -50px), 0) rotate(var(--rot3, 22deg)) scale(1.06); opacity: 1; }
+    100% { transform: translate3d(var(--x4, -45px), var(--y4, 30px), 0) rotate(var(--rot4, -12deg)) scale(.96); opacity: .96; }
 }
 
-/* Perspective-like compression and tiny body roll create a more lifelike flap. */
+/* Perspective-like compression aannind tiny body roll create a more lifelike flap. */
 @keyframes butterflyWingFlap {
     0%, 100% { transform: perspective(70px) rotateY(0deg) rotateZ(-3deg) scaleX(1); }
     22% { transform: perspective(70px) rotateY(28deg) rotateZ(1deg) scaleX(.88); }
@@ -825,12 +850,12 @@ footer {
 }
 
 @keyframes butterflyFlight {
-    0%   { transform: translate3d(0, 0, 0) rotate(var(--rot0, -10deg)) scale(.82); opacity: .12; }
-    12%  { opacity: .58; }
+    0%   { transform: translate3d(0, 0, 0) rotate(var(--rot0, -10deg)) scale(.9); opacity: .72; }
+    12%  { opacity: .9; }
     27%  { transform: translate3d(var(--x1, 45px), var(--y1, -35px), 0) rotate(var(--rot1, 15deg)) scale(1); }
     49%  { transform: translate3d(var(--x2, -30px), var(--y2, 55px), 0) rotate(var(--rot2, -20deg)) scale(.92); }
     73%  { transform: translate3d(var(--x3, 70px), var(--y3, -50px), 0) rotate(var(--rot3, 22deg)) scale(1.08); }
-    100% { transform: translate3d(var(--x4, -45px), var(--y4, 30px), 0) rotate(var(--rot4, -12deg)) scale(.86); opacity: .42; }
+    100% { transform: translate3d(var(--x4, -45px), var(--y4, 30px), 0) rotate(var(--rot4, -12deg)) scale(.92); opacity: .82; }
 }
 
 /* New anniversary opening slide */
@@ -846,9 +871,11 @@ footer {
     position: relative;
     overflow: hidden;
     background:
-      radial-gradient(circle at 20% 20%, rgba(255,190,210,.32), transparent 35%),
-      radial-gradient(circle at 80% 80%, rgba(255,220,230,.22), transparent 32%),
-      linear-gradient(145deg, #4b1028, #a52c4d 55%, #e47796);
+      linear-gradient(rgba(40, 0, 20, 0.45), rgba(40, 0, 20, 0.60)),
+      url("WhatsApp Image 2026-10-13 at 1.06.55 PM.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 .anniversary-intro::before,
 .anniversary-intro::after {
@@ -1434,11 +1461,15 @@ footer {
 ========================= -->
 
 <div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
-<div class="butterfly blue-butterfly"><span class="butterfly-glyph">🦋</span></div>
-<div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
-<div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
-<div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
-<div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
+<div class="butterfly blue-butterfly"><svg class="butterfly-glyph blue-butterfly-svg" viewBox="0 0 64 64" aria-label="Blue butterfly" role="img">
+  <defs>
+    <linearGradient id="blueWingGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b8f0ff"/><stop offset=".48" stop-color="#39aaff"/><stop offset="1" stop-color="#2455e8"/></linearGradient>
+    <linearGradient id="blueWingGradient2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d1f7ff"/><stop offset=".5" stop-color="#58c8ff"/><stop offset="1" stop-color="#3769f5"/></linearGradient>
+  </defs>
+  <g class="blue-wing left-wing"><path d="M31 30 C23 8 7 4 5 17 C2 28 14 34 27 35 C13 34 9 42 17 49 C23 54 29 45 32 36 Z" fill="url(#blueWingGradient)" stroke="#d9f7ff" stroke-width="1.3"/><path d="M26 29 Q14 16 9 16 M25 35 Q15 35 13 43" fill="none" stroke="#e8fbff" stroke-width="1" opacity=".8"/></g>
+  <g class="blue-wing right-wing"><path d="M33 30 C41 8 57 4 59 17 C62 28 50 34 37 35 C51 34 55 42 47 49 C41 54 35 45 32 36 Z" fill="url(#blueWingGradient2)" stroke="#d9f7ff" stroke-width="1.3"/><path d="M38 29 Q50 16 55 16 M39 35 Q49 35 51 43" fill="none" stroke="#e8fbff" stroke-width="1" opacity=".8"/></g>
+  <path d="M32 27 C29 34 30 41 32 44 C34 41 35 34 32 27Z" fill="#173d99" stroke="#e6faff" stroke-width=".8"/><path d="M31 28 Q25 19 22 21 M33 28 Q39 19 42 21" fill="none" stroke="#173d99" stroke-width="1.5" stroke-linecap="round"/>
+</svg></div>
 <div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
 <div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
 <div class="butterfly"><span class="butterfly-glyph">🦋</span></div>
@@ -1481,8 +1512,10 @@ function setButterflyFlight(butterfly, freshPosition = true) {
     butterfly.style.animation = "none";
     if (glyph) glyph.style.animation = "none";
     void butterfly.offsetWidth;
-    butterfly.style.animation = "butterflyFlight var(--duration) ease-in-out var(--delay) infinite alternate";
-    if (glyph) glyph.style.animation = "butterflyWingFlap var(--flap-speed) ease-in-out infinite";
+    butterfly.style.animation = butterfly.classList.contains("blue-butterfly")
+        ? "blueButterflyFlight var(--duration) ease-in-out var(--delay) infinite alternate"
+        : "butterflyFlight var(--duration) ease-in-out var(--delay) infinite alternate";
+    if (glyph && !butterfly.classList.contains("blue-butterfly")) glyph.style.animation = "butterflyWingFlap var(--flap-speed) ease-in-out infinite";
     butterfly.dataset.initialized = "true";
 }
 
@@ -1809,30 +1842,29 @@ function createGlitter(x, y) {
 document.addEventListener("pointerdown", function (event) {
     createGlitter(event.clientX, event.clientY);
 
-    // Only the blue butterfly gently glides to the touch point. Pink butterflies
-    // continue their own independent flight paths and never gather around the touch.
+    // Only the always-visible blue butterfly glides slowly toward the touch point.
+    // The five pink butterflies keep their own independent paths.
     const blueButterfly = document.querySelector(".blue-butterfly");
-    if (blueButterfly && blueButterfly.dataset.gathering !== "true") {
-        blueButterfly.dataset.gathering = "true";
+    if (blueButterfly) {
         const rect = blueButterfly.getBoundingClientRect();
         const startLeft = rect.left;
         const startTop = rect.top;
         blueButterfly.style.animation = "none";
         blueButterfly.style.left = `${startLeft}px`;
         blueButterfly.style.top = `${startTop}px`;
-        blueButterfly.style.opacity = ".88";
-        // A longer, eased journey makes it feel like it is calmly flying, not rushing.
-        blueButterfly.style.transition = "left 2.8s cubic-bezier(.22,.61,.36,1), top 2.8s cubic-bezier(.22,.61,.36,1), opacity .5s ease";
+        blueButterfly.style.opacity = ".98";
+        blueButterfly.style.transition = "left 3.2s cubic-bezier(.22,.61,.36,1), top 3.2s cubic-bezier(.22,.61,.36,1)";
+        // Cancel a previous return timer so a new touch simply redirects its flight.
+        if (blueButterfly._touchFlightTimer) clearTimeout(blueButterfly._touchFlightTimer);
         requestAnimationFrame(() => {
-            blueButterfly.style.left = `${event.clientX - rect.width / 2}px`;
-            blueButterfly.style.top = `${event.clientY - rect.height / 2}px`;
+            blueButterfly.style.left = `${Math.max(0, Math.min(window.innerWidth - rect.width, event.clientX - rect.width / 2))}px`;
+            blueButterfly.style.top = `${Math.max(0, Math.min(window.innerHeight - rect.height, event.clientY - rect.height / 2))}px`;
         });
-        setTimeout(() => {
+        blueButterfly._touchFlightTimer = setTimeout(() => {
             blueButterfly.style.transition = "none";
-            blueButterfly.style.opacity = ".82";
+            blueButterfly.style.opacity = ".96";
             setButterflyFlight(blueButterfly, false);
-            blueButterfly.dataset.gathering = "false";
-        }, 3000);
+        }, 3300);
     }
 
     const button = event.target.closest("button");
