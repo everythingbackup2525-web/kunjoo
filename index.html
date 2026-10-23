@@ -1710,7 +1710,7 @@ section h2, section h3, section p {
             You remembered! 🥹❤️<br>
             Some little names become the sweetest memories. Forever yours. 💗
 
-            <div class="secret-carousel" id="secretCarousel" aria-label="Five secret anniversary slides">
+            <div class="secret-carousel" id="secretCarousel" aria-label="Four secret anniversary slides">
                 <div class="secret-carousel-track" id="secretCarouselTrack">
                     <article class="secret-slide">
                         <span class="secret-number">01 / 05 · LOVE LETTER</span><div class="secret-emoji">💌</div>
@@ -1730,21 +1730,13 @@ Thank you for choosing me. I will keep choosing you, over and over again.
 I love you ♥</div>
                     </article>
                     <article class="secret-slide">
-                        <span class="secret-number">03 / 05 · OUR VIDEO</span><div class="secret-emoji">🎞️</div>
-                        <h3>A Little Video of Us</h3><p>Our favourite moments, saved forever. ♥</p>
-                        <video class="secret-video-frame" controls preload="metadata" poster="assets/video-poster.jpg">
-                            <source src="assets/our-video.mp4" type="video/mp4">
-                            Your browser does not support the video element.
-                        </video>
-                    </article>
-                    <article class="secret-slide">
-                        <span class="secret-number">04 / 05 · 14 MEMORIES</span><div class="secret-emoji">📸</div>
+                        <span class="secret-number">03 / 04 · 14 MEMORIES</span><div class="secret-emoji">📸</div>
                         <h3>Our Beautiful Memories</h3><p>Fourteen little moments, one big love. ♥</p>
                         <div class="secret-gallery-grid" id="secretGalleryGrid"><div class="secret-gallery-item"><img src="WhatsApp Image 2026-10-23 at 1.12.55 PM.jpeg" alt="Our memory 1" loading="lazy"></div><div class="secret-gallery-item"><img src="WhatsApp Image 2026-10-23 at 1.12.55 PM (1).jpeg" alt="Our memory 2" loading="lazy"></div><div class="secret-gallery-item"><img src="WhatsApp Image 2026-10-23 at 1.12.56 PM.jpeg" alt="Our memory 3" loading="lazy"></div><div class="secret-gallery-item"><img src="WhatsApp Image 2026-10-23 at 1.12.56 PM (1).jpeg" alt="Our memory 4" loading="lazy"></div><div class="secret-gallery-item"><img src="WhatsApp Image 2026-10-23 at 1.12.56 PM (2).jpeg" alt="Our memory 5" loading="lazy"></div><div class="secret-gallery-item"><img src="WhatsApp Image 2026-10-23 at 1.12.57 PM.jpeg" alt="Our memory 6" loading="lazy"></div><div class="secret-gallery-item"><img src="WhatsApp Image 2026-10-23 at 1.12.57 PM (1).jpeg" alt="Our memory 7" loading="lazy"></div><div class="secret-gallery-item"><img src="WhatsApp Image 2026-10-23 at 1.12.58 PM.jpeg" alt="Our memory 8" loading="lazy"></div><div class="secret-gallery-item"><img src="WhatsApp Image 2026-10-23 at 1.12.58 PM (1).jpeg" alt="Our memory 9" loading="lazy"></div><div class="secret-gallery-item"><img src="WhatsApp Image 2026-10-23 at 1.12.58 PM (2).jpeg" alt="Our memory 10" loading="lazy"></div><div class="secret-gallery-item"><img src="WhatsApp Image 2026-10-23 at 1.12.59 PM.jpeg" alt="Our memory 11" loading="lazy"></div><div class="secret-gallery-item"><img src="WhatsApp Image 2026-10-23 at 1.12.59 PM (1).jpeg" alt="Our memory 12" loading="lazy"></div><div class="secret-gallery-item"><img src="WhatsApp Image 2026-10-23 at 1.12.59 PM (1).jpeg" alt="Our memory 13" loading="lazy"></div><div class="secret-gallery-item"><img src="WhatsApp Image 2026-10-23 at 1.13.00 PM.jpeg" alt="Our memory 14" loading="lazy"></div></div>
                         <p>14 little moments, one big love. ♥</p>
                     </article>
                     <article class="secret-slide">
-                        <span class="secret-number">05 / 05 · THE GRAND SURPRISE</span>
+                        <span class="secret-number">04 / 04 · THE GRAND SURPRISE</span>
                         <div class="secret-proposal" id="secretProposal">
                             <div class="secret-anniversary-pop">Happy 5th Anniversary<br><strong>anruuu♥</strong></div>
                             <div class="secret-emoji">💖✨💖</div>
@@ -1756,10 +1748,10 @@ I love you ♥</div>
                 </div>
                 <div class="secret-carousel-controls">
                     <button type="button" id="secretPrev" aria-label="Previous secret slide">‹</button>
-                    <span id="secretSlideCount">1 / 5</span>
+                    <span id="secretSlideCount">1 / 4</span>
                     <button type="button" id="secretNext" aria-label="Next secret slide">›</button>
                 </div>
-                <p class="secret-swipe-hint">Swipe sideways to explore all five slides ↔</p>
+                <p class="secret-swipe-hint">Swipe sideways to explore all four slides ↔</p>
             </div>
         </div>
     </div>
@@ -2404,7 +2396,7 @@ if (loveLockSection && "IntersectionObserver" in window) {
     secretSlideObserver.observe(loveLockSection);
 }
 
-/* Password-unlocked five-slide carousel, video URL, and 14-image gallery. */
+/* Password-unlocked four-slide carousel with two letters, a 14-image gallery, and the final proposal. */
 (function () {
     const track = document.getElementById("secretCarouselTrack");
     const carousel = document.getElementById("secretCarousel");
@@ -2475,19 +2467,6 @@ if (loveLockSection && "IntersectionObserver" in window) {
     let touchX=0;
     box.addEventListener('touchstart',e=>{touchX=e.changedTouches[0].clientX;},{passive:true});
     box.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-touchX;if(Math.abs(dx)>45)showPhoto(current+(dx<0?1:-1));},{passive:true});
-})();
-
-// Automatically request full-screen playback when the video starts, where supported.
-(function(){
-    const video = document.querySelector('.secret-video-frame');
-    if (!video) return;
-    video.addEventListener('play', async () => {
-        try {
-            if (document.fullscreenElement === video) return;
-            if (video.requestFullscreen) await video.requestFullscreen();
-            else if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
-        } catch (err) { /* Some browsers only permit fullscreen via their native control. */ }
-    });
 })();
 
 // A glitter burst when the final proposal button is pressed.
